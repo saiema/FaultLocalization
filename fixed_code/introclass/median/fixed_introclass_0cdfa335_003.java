@@ -1,11 +1,11 @@
 package introclass.median;
 
-public class introclass_30074a0e_000 {
+public class fixed_introclass_0cdfa335_003 {
 
-	public introclass_30074a0e_000() {
+    public fixed_introclass_0cdfa335_003() {
     }
-	
-	/*@
+    
+    /*@
     @ requires true;
     @ ensures ((\result == a) || (\result == b) || (\result == c));
     @ ensures ( (a == b) ==> ((\result == a) || (\result == b) ) );
@@ -17,16 +17,16 @@ public class introclass_30074a0e_000 {
     @
     @*/
     public int median( int a, int b, int c ) {
-    	if ((a < b && b < c) || (b < a && c < b)) { 
-            return b; 
+        int theMedian;
+        if (a >= b && a <= c || a >= c && a <= b) {
+            c = a;
         }
-        if ((b < a && a < c) || (a < b && c < a)) { 
-            return a; 
+        if (b >= a && b <= c || b >= c && b <= a) {
+            theMedian = b;
+        } else {
+            theMedian = c;
         }
-        if ((a < c && c < b) || (b < c && c < a)) { 
-            return c; 
-        }
-        return 0; 
+        return theMedian;
     }
 	
 }
