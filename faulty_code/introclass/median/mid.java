@@ -17,9 +17,10 @@ public class mid {
     @
     @*/
     public int median( int x, int y, int z ) {
-        int m = z;
+        int m;
         // read ("Enter 3 numbers:",x,y,z);
-        if ( y < z ) {
+	m = z;        
+	if ( y < z ) {
             if ( x < y ){
             	m = y;
             }else if ( x < z )

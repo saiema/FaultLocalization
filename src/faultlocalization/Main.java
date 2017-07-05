@@ -48,8 +48,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		
-		args = new String[]{"-p", "/Users/gaston/Documents/EclipseWorkspace/FaultLocalization/faulty_code/",
-							/*1*/ //"-c", "introclass.median.introclass_0cdfa335_003",
+		args = new String[]{"-p", "/home/stein/Projects/FaultLocalization/FaultLocalization/faulty_code",
+							/*1*/ "-c", "introclass.median.introclass_0cdfa335_003",
 							/*2*/ //"-c", "introclass.median.introclass_0cea42f9_003",
 							/*3*/ //"-c", "introclass.median.introclass_15cb07a7_003",
 							/*4*/ //"-c", "introclass.median.introclass_1b31fa5c_000",
@@ -106,10 +106,11 @@ public class Main {
 							/*54*/ //"-c", "introclass.median.introclass_fcf701e8_002",
 							/*55*/ //"-c", "introclass.median.introclass_fcf701e8_003",
 							/*56*/ //"-c", "introclass.median.introclass_fe9d5fb9_000",
-							/*57*/ "-c", "introclass.median.introclass_fe9d5fb9_002",
+							/*57*/ //"-c", "introclass.median.introclass_fe9d5fb9_002",
+							/*58*/ //"-c", "introclass.median.mid",
 							
 							
-							"-t", "/Users/gaston/Documents/EclipseWorkspace/FaultLocalization/tests/",
+							"-t", "/home/stein/Projects/FaultLocalization/FaultLocalization/tests",
 							/*1*/ //"-j", "median_tests.introclass_0cdfa335_003_Tests",
 							/*2*/ //"-j", "median_tests.introclass_0cea42f9_003_Tests",
 							/*3*/ //"-j", "median_tests.introclass_15cb07a7_003_Tests",
@@ -166,14 +167,16 @@ public class Main {
 							/*54*/ //"-j", "median_tests.introclass_fcf701e8_002_Tests",
 							/*55*/ //"-j", "median_tests.introclass_fcf701e8_003_Tests",
 							/*56*/ //"-j", "median_tests.introclass_fe9d5fb9_000_Tests",
-							/*57*/ "-j", "median_tests.introclass_fe9d5fb9_002_Tests",
+							/*57*/ //"-j", "median_tests.introclass_fe9d5fb9_002_Tests",
+							/*58*/ //"-j","median_tests.mid_Tests",
+							"-j", "tests.median.MedianTestsWhitebox",
 							
 							
 							
 							//14"-j", "median_tests.introclass_3b2376ab_003_Tests",
 							
 							
-							"-o", "/Users/gaston/Desktop/FL/",
+							"-o", "/home/stein/Desktop/FL",
 							"-f", "tarantula", "OCHIAI", "OP2", "BARINEL", "DSTAR",
 							"-n", "3",
 							"-m", "1", "5",

@@ -1,0 +1,31 @@
+package oracles;
+
+public class Median {
+
+	public static int median(int num1, int num2, int num3){
+		
+		System.out.println("LALALALALALALALALALALLALALALA");
+	  int bigger12, smaller12;
+	  int median;
+	  
+	  if (num1 < num2){
+	    bigger12 = num2;
+	    smaller12 = num1;
+	  }
+	  else {
+	    bigger12 = num1;
+	    smaller12 = num2;
+	  };
+	  if (bigger12 < num3) 
+	    median = bigger12; 
+	  else if (num3 > smaller12)
+	    median = num3;
+	  else 
+	    median = smaller12;
+	  
+	  return median;
+	  
+	}
+	
+	
+}
