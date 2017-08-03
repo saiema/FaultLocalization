@@ -19,7 +19,7 @@ import tests.utils.filters.median.MedianInputFilter;
 import tests.utils.filters.median.MedianOutputFilter;
 
 @RunWith(Parameterized.class)
-public class MedianTestsWhitebox {
+public class introclass_fcf701e8_000_MedianTestsWhitebox {
 	
 	private Integer[] inputs;
 	private Integer output;
@@ -28,7 +28,7 @@ public class MedianTestsWhitebox {
 	private static final MedianTester mt = new MedianTester();
 	
 	
-	public MedianTestsWhitebox(String inFile, String outFile) throws IOException {
+	public introclass_fcf701e8_000_MedianTestsWhitebox(String inFile, String outFile) throws IOException {
 		File iFile = new File(inFile);
 		File oFile = new File(outFile);
 		FileToStringInput ftsi_in = new FileToStringInput(iFile);
@@ -46,13 +46,21 @@ public class MedianTestsWhitebox {
     	results.add(new Object[] {"tests/median/whitebox/4.in", "tests/median/whitebox/4.out"});
     	results.add(new Object[] {"tests/median/whitebox/5.in", "tests/median/whitebox/5.out"});
     	results.add(new Object[] {"tests/median/whitebox/6.in", "tests/median/whitebox/6.out"});
+    	
+    	results.add(new Object[] {"tests/median/blackbox/1.in", "tests/median/blackbox/1.out"});
+    	results.add(new Object[] {"tests/median/blackbox/2.in", "tests/median/blackbox/2.out"});
+    	results.add(new Object[] {"tests/median/blackbox/3.in", "tests/median/blackbox/3.out"});
+    	results.add(new Object[] {"tests/median/blackbox/4.in", "tests/median/blackbox/4.out"});
+    	results.add(new Object[] {"tests/median/blackbox/5.in", "tests/median/blackbox/5.out"});
+    	results.add(new Object[] {"tests/median/blackbox/6.in", "tests/median/blackbox/6.out"});
+    	
     	return results;
     }
 
 	@Test
 	public void test() {
 		try {
-			Integer output = mt.testClassMethod(inputs, new File("/home/stein/Desktop/FL/"), "introclass.median.introclass_0cdfa335_003", "median");
+			Integer output = mt.testClassMethod(inputs, new File("/Users/gaston/Desktop/FL/"), "introclass.median.introclass_fcf701e8_000", "median");
 			//Integer output = mt.testClassMethod(inputs, new File("/home/stein/Projects/Introclass/IntroclassCustomTesting/bin/oracles/Median.class"), "oracles.Median", "median");
 			assertEquals("Expected " + this.output + " got " + output + " instead", this.output, output);
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
