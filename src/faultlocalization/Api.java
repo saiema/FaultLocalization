@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
 import javax.tools.JavaCompiler;
@@ -22,17 +23,19 @@ import com.github.javaparser.ParseException;
 
 import faultlocalization.coverage.CoverageInformation;
 import faultlocalization.coverage.CoverageInformationHolder;
-import faultlocalization.coverage.SpectrumBasedFormula;
-import faultlocalization.coverage.SpectrumBasedFormula.Formulas;
-import faultlocalization.coverage.Instrumentalizator;
+import faultlocalization.coverage.Instrumenter;
+import faultlocalization.formulas.SpectrumBasedFormula;
+import faultlocalization.formulas.SpectrumBasedFormula.FORMULA;
 import faultlocalization.junit.runner.FaultLocalizationTrigger;
 import faultlocalization.junit.runner.JunitTestRunner;
 import faultlocalization.junit.runner.TestRunnerException;
 import faultlocalization.loader.Reloader;
 
+@Deprecated
 public class Api {
 	
 	private static CoverageInformation ci;
+	private static Random rng = new Random();
 
 	public static Map<String, Map<Integer, Float>> rankStatements (
 															String className,
@@ -40,7 +43,7 @@ public class Api {
 															File jtestsFolder,
 															File outputFolder,
 															String[] junitTests,
-															List<Formulas> formulas,
+															List<FORMULA> formulas,
 															Collection<String> libraries) throws ParseException, IOException {
 		List<String> classpath = new LinkedList<>();
 		classpath.add("bin/");
@@ -55,6 +58,8 @@ public class Api {
 		
 		//Instrument faulty class file
 		
+		long id = rng.nextLong();
+		
 		String fclassNameAsPath = className.replaceAll("\\.", File.separator);
 		File fclassFile = fcodeFolder.toPath().resolve(fclassNameAsPath + ".java").toFile();
 		
@@ -63,7 +68,7 @@ public class Api {
 		outputFile.getParentFile().mkdirs();
 		outputFile.createNewFile();
 		
-		Instrumentalizator instrumentalizator = new Instrumentalizator(fclassFile);
+		Instrumenter instrumentalizator = new Instrumenter(fclassFile, id);
 		instrumentalizator.instrument(outputFile);
 		
 		//Compile instrumented faulty class
@@ -85,8 +90,8 @@ public class Api {
 		
 		//Run tests
 		
-		CoverageInformationHolder.getInstance().instantiateCoverageInformation(fclassFile.getPath().toString());
-		FaultLocalizationTrigger trigger = new FaultLocalizationTrigger(CoverageInformationHolder.getInstance().getCoverageInformation(fclassFile.getPath().toString()));
+		CoverageInformationHolder.getInstance().instantiateCoverageInformation(id);
+		FaultLocalizationTrigger trigger = new FaultLocalizationTrigger(CoverageInformationHolder.getInstance().getCoverageInformation(id));
 		for (String test : junitTests) {
 			Class<?> testToRun;
 			try {
@@ -106,11 +111,10 @@ public class Api {
 		Map<String, Map<Integer, Float>> results = new TreeMap<>();
 		
 		
-		ci = CoverageInformationHolder.getInstance().getCoverageInformation(fclassFile.getPath().toString());
+		ci = CoverageInformationHolder.getInstance().getCoverageInformation(id);
 		
-		for (Formulas f : formulas) {
-			SpectrumBasedFormula sbf = new SpectrumBasedFormula(f);
-			results.put(f.getName(), sbf.rankStatements(ci));
+		for (FORMULA f : formulas) {
+			results.put(f.getName(), SpectrumBasedFormula.rankStatements(ci, f));
 		}
 		
 		
@@ -139,7 +143,7 @@ public class Api {
 		
 		Map<Integer, Integer> mglPerLine = new TreeMap<>();
 		mglPerLine.put(line, mgl);
-		Instrumentalizator instrumentalizator = new Instrumentalizator(classFile, mglPerLine);
+		Instrumenter instrumentalizator = new Instrumenter(classFile, mglPerLine);
 		instrumentalizator.instrument(outputFile);
 		return outputFile;
 	}
@@ -160,7 +164,7 @@ public class Api {
 		outputFile.getParentFile().mkdirs();
 		outputFile.createNewFile();
 		
-		Instrumentalizator instrumentalizator = new Instrumentalizator(classFile, mutGenLimitsPerLine);
+		Instrumenter instrumentalizator = new Instrumenter(classFile, mutGenLimitsPerLine);
 		instrumentalizator.instrument(outputFile);
 		return outputFile;
 	}

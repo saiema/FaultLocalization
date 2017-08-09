@@ -29,18 +29,20 @@ import com.github.javaparser.ast.stmt.ThrowStmt;
 import com.github.javaparser.ast.stmt.WhileStmt;
 import com.github.javaparser.ast.visitor.ModifierVisitorAdapter;
 
-public class Instrumentalizator extends ModifierVisitorAdapter<Object> {
+public class Instrumenter extends ModifierVisitorAdapter<Object> {
 
 	private File fileToInstrument;
 	private Map<Integer, Integer> mutGenLimitPerLine;
+	private Long id;
 	
-	public Instrumentalizator(File f) {
+	public Instrumenter(File f, Long id) {
 		this.fileToInstrument = f;
 		this.mutGenLimitPerLine = null;
+		this.id = id;
 	}
 	
-	public Instrumentalizator(File f, Map<Integer, Integer> mutGenLimitPerLine) {
-		this(f);
+	public Instrumenter(File f, Map<Integer, Integer> mutGenLimitPerLine) {
+		this(f, 0l);
 		this.mutGenLimitPerLine = mutGenLimitPerLine;
 	}
 	
@@ -80,7 +82,7 @@ public class Instrumentalizator extends ModifierVisitorAdapter<Object> {
 	 */
 	private Statement makeCoverageTrackingCall(int line) {
 		//CoverageTracker.markExecutable(file, line); No need for this, I don't want to know if a line could be executed.
-		NameExpr coverageTracker = ASTHelper.createNameExpr("faultlocalization.coverage.CoverageInformationHolder.getInstance().getCoverageInformation(\""+ this.fileToInstrument.getPath().toString()+"\")");
+		NameExpr coverageTracker = ASTHelper.createNameExpr("faultlocalization.coverage.CoverageInformationHolder.getInstance().getCoverageInformation(" + id.toString()+"l" + ")");
 		MethodCallExpr call = new MethodCallExpr(coverageTracker, "mark");
 	    ASTHelper.addArgument(call, new IntegerLiteralExpr(String.valueOf(line)));
 	    return new ExpressionStmt(call);
@@ -101,7 +103,7 @@ public class Instrumentalizator extends ModifierVisitorAdapter<Object> {
 //	}
 	
 	private MethodCallExpr markExpression(int line, Expression expression) {
-		NameExpr coverageTracker = ASTHelper.createNameExpr("faultlocalization.coverage.CoverageInformationHolder.getInstance().getCoverageInformation(\""+ this.fileToInstrument.getPath().toString()+"\")");
+		NameExpr coverageTracker = ASTHelper.createNameExpr("faultlocalization.coverage.CoverageInformationHolder.getInstance().getCoverageInformation(" + id.toString()+"l" + ")");
 		MethodCallExpr call = new MethodCallExpr(coverageTracker, "mark");
 	    ASTHelper.addArgument(call, new IntegerLiteralExpr(String.valueOf(line)));
 	    ASTHelper.addArgument(call, expression);

@@ -19,8 +19,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 import faultlocalization.coverage.CoverageInformation;
-import faultlocalization.coverage.SpectrumBasedFormula;
-import faultlocalization.coverage.SpectrumBasedFormula.Formulas;
+import faultlocalization.formulas.SpectrumBasedFormula;
+import faultlocalization.formulas.SpectrumBasedFormula.FORMULA;
 
 /**
  * Fault localization application.
@@ -36,6 +36,7 @@ import faultlocalization.coverage.SpectrumBasedFormula.Formulas;
  * <p>
  * @author stein
  * @version 0.5
+ * @deprecated use {@link faultlocalization.FaultlocalizationCLI} instead
  */
 public class Main {
 	
@@ -314,7 +315,7 @@ public class Main {
 				junitTests.add(jtestFile);
 			}
 			
-			List<Formulas> sbFormulas = new LinkedList<>();
+			List<FORMULA> sbFormulas = new LinkedList<>();
 					
 			if (cmd.hasOption(techniques.getOpt())) {
 			
@@ -322,7 +323,7 @@ public class Main {
 			
 				for (String sbt : sbTechniques) {
 					boolean found = false;
-					for (Formulas sbf : SpectrumBasedFormula.Formulas.values()) {
+					for (FORMULA sbf : SpectrumBasedFormula.FORMULA.values()) {
 						if (sbt.compareToIgnoreCase(sbf.getName()) == 0) {
 							found = true;
 							sbFormulas.add(sbf);
@@ -338,7 +339,7 @@ public class Main {
 			}
 			
 			if (sbFormulas.isEmpty()) {
-				for (Formulas sbf : SpectrumBasedFormula.Formulas.values()) {
+				for (FORMULA sbf : SpectrumBasedFormula.FORMULA.values()) {
 					sbFormulas.add(sbf);
 				}
 			}
@@ -433,7 +434,7 @@ public class Main {
 			System.out.println("jUnit tests                       : ");
 			for (File jt : junitTests) System.out.println("        " + jt.getPath().toString());
 			System.out.println("Spectrum-Based formulas : ");
-			for (Formulas f : sbFormulas) System.out.println("        " + f.getName());
+			for (FORMULA f : sbFormulas) System.out.println("        " + f.getName());
 			System.out.println("Output folder                     : " + outputFolder.getPath().toString());
 			System.out.println("Classpath : ");
 			for (String c : classpath) System.out.println("        " + c);
@@ -449,7 +450,7 @@ public class Main {
 			Map<String, Map<Integer, Float>> rankings = Api.rankStatements(faultyClassName, fcodeFolder, jtestsFolder, outputFolder, jutests, sbFormulas, librariesPaths);
 			CoverageInformation ci = Api.getCoverageInformation();
 			
-			for (Formulas f : sbFormulas) {
+			for (FORMULA f : sbFormulas) {
 				Map<Integer, Float> ranking = rankings.get(f.getName());
 				System.out.println("================================");
 				System.out.println(f.getName());
@@ -464,7 +465,7 @@ public class Main {
 			//Generate mutGenLimit versions
 			
 			Set<Integer> linesToMark = new TreeSet<>();
-			for (Formulas f : sbFormulas) {
+			for (FORMULA f : sbFormulas) {
 				Map<Integer, Float> ranking = rankings.get(f.getName());
 				for (Entry<Integer, Float> r : ranking.entrySet()) {
 					if (r.getValue() > 0 && !linesToMark.contains(r.getKey())) {

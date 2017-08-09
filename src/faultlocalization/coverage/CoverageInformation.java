@@ -1,8 +1,11 @@
 package faultlocalization.coverage;
 
+import java.io.Serializable;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -13,7 +16,9 @@ import java.util.TreeSet;
  * @author stein
  * @version 0.1
  */
-public class CoverageInformation {
+public class CoverageInformation implements Serializable {
+
+	private static final long serialVersionUID = -2755642329685340486L;
 	private Map<Integer, Integer> positiveTestsPerLine;
 	private Map<Integer, Integer> negativeTestsPerLine;
 	private Set<Integer> markedLines;
@@ -81,6 +86,44 @@ public class CoverageInformation {
 	
 	public int getTotalPassedTests() {
 		return this.totalPassedtests;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("positive tests per line\n");
+		Iterator<Entry<Integer, Integer>> pti = positiveTestsPerLine.entrySet().iterator();
+		while (pti.hasNext()) {
+			Entry<Integer, Integer> c = pti.next();
+			sb.append(c.getKey() + " : " + c.getValue());
+			if (pti.hasNext()) {
+				sb.append("\n");
+			}
+		}
+		sb.append("\n");
+		sb.append("negative tests per line\n");
+		Iterator<Entry<Integer, Integer>> nti = negativeTestsPerLine.entrySet().iterator();
+		while (nti.hasNext()) {
+			Entry<Integer, Integer> c = nti.next();
+			sb.append(c.getKey() + " : " + c.getValue());
+			if (nti.hasNext()) {
+				sb.append("\n");
+			}
+		}
+		sb.append("\n");
+		sb.append("marked lines : ");
+		Iterator<Integer> mli = markedLines.iterator();
+		while (mli.hasNext()) {
+			Integer c = mli.next();
+			sb.append(c);
+			if (mli.hasNext()) {
+				sb.append(",");
+			}
+		}
+		sb.append("\n");
+		sb.append("total passed tests: " + totalPassedtests + "\n");
+		sb.append("total failed tests: " + totalFailedTests + "\n");
+		return sb.toString();
 	}
 
 }

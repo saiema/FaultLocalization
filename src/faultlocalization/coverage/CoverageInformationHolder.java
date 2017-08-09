@@ -5,7 +5,7 @@ import java.util.TreeMap;
 
 public class CoverageInformationHolder {
 	
-	private Map<String, CoverageInformation> coverageHolder;
+	private Map<Long, CoverageInformation> coverageHolder;
 	private static CoverageInformationHolder instance;
 	
 	public static CoverageInformationHolder getInstance() {
@@ -18,12 +18,12 @@ public class CoverageInformationHolder {
 		this.coverageHolder = new TreeMap<>();
 	}
 	
-	public void instantiateCoverageInformation(String file) {
-		this.coverageHolder.put(file, new CoverageInformation());
+	public void instantiateCoverageInformation(Long id) {
+		this.coverageHolder.put(id, new CoverageInformation());
 	}
 	
-	public CoverageInformation getCoverageInformation(String file) {
-		return coverageHolder.get(file);
+	public CoverageInformation getCoverageInformation(Long id) {
+		return coverageHolder.get(id);
 	}
 
 }

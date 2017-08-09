@@ -1,4 +1,4 @@
-package faultlocalization.coverage;
+package faultlocalization.formulas;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -8,9 +8,11 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-//TODO: this class should implement a sprectrum based formula, that given coverage information return a statement ranking
+import faultlocalization.coverage.CoverageInformation;
+
+
 public class SpectrumBasedFormula {
-	public static enum Formulas {
+	public static enum FORMULA {
 		
 		TARANTULA {
 
@@ -112,36 +114,19 @@ public class SpectrumBasedFormula {
 		public abstract Float evaluate(int positive, int negative, int totalPositive, int totalNegative);
 	}
 	
-	protected Formulas formula;
-	
-	public SpectrumBasedFormula(Formulas f) {
-		this.formula = f;
-	}
-	
-	public Map<Integer, Float> rankStatements(CoverageInformation coverageInfo) {
+	public static Map<Integer, Float> rankStatements(CoverageInformation coverageInfo, FORMULA f) {
 		Map<Integer, Float> ranking = new TreeMap<>();
 		for (Integer l : coverageInfo.getMarkedLines()) {
 			int pos = coverageInfo.getPassedCount(l);
 			int neg = coverageInfo.getFailedCount(l);
 			int totalPos = coverageInfo.getTotalPassedTests();
 			int totalNeg = coverageInfo.getTotalFailedTests();
-			ranking.put(l, this.formula.evaluate(pos, neg, totalPos, totalNeg));
+			ranking.put(l, f.evaluate(pos, neg, totalPos, totalNeg));
 		}
-		//return sortByValue(ranking);
 		return sortByValueAndExecutedTimes(sortByValue(ranking), coverageInfo);
 	}
 	
-	@Override
-	public String toString() {
-		String res = "Spectrum-Based ranking\n";
-		res += "------------------------------\n";
-		res += "Formula used : " + this.formula.getName() + "\n";
-		res += "Description : " + this.formula.description() + "\n";
-		res += "------------------------------\n";
-		return res;
-	}
-	
-	public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+	private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
 	    return map.entrySet()
 	              .stream()
 	              .sorted(Map.Entry.comparingByValue(Collections.reverseOrder()))
@@ -156,7 +141,7 @@ public class SpectrumBasedFormula {
 	/*
 	 * Reorder ranking by line execution times, only when a neighbor pair of entries have a same ranking value.
 	 */
-	public static <K, V extends Comparable<? super V>> Map<K, V> sortByValueAndExecutedTimes(Map<K, V> map, CoverageInformation ci) {
+	private static <K, V extends Comparable<? super V>> Map<K, V> sortByValueAndExecutedTimes(Map<K, V> map, CoverageInformation ci) {
 		Map<K, V> ranking = new LinkedHashMap<>();
 		Iterator<Entry<K, V>> iterator = map.entrySet().iterator();
 		while ( iterator.hasNext()) {
