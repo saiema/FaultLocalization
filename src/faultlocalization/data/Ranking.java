@@ -80,13 +80,12 @@ public class Ranking implements Serializable {
 		return sortByValue(normalizedRankStatements);
 	}
 	
-	/*
-	 * @requires normalizedRankStatements was executed 
-	 * @throws IllegalStateException if normalizedRankStatements method didn't execute
+	/**
+	 * @return ranking as probability distribution.  
 	 */
-	public Map<Integer, Float> getProbabilitiesRanking() throws IllegalStateException{
-		if (normalizedRrankingProbabilities==null)
-			throw new IllegalStateException("didn't run normalizedRankStatements method");
+	public Map<Integer, Float> getProbabilitiesRanking(){
+		if (normalizedRrankingProbabilities == null)
+			normalizedRankStatements = getNormalizedRankStatements();
 		return normalizedRrankingProbabilities;
 	}
 	
