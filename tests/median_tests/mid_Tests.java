@@ -21,7 +21,7 @@ public class mid_Tests {
         this.y = b;
         this.z = c;
     }
-
+/*
     @Parameterized.Parameters
     public static Collection<Integer[]> values() {
         List<Integer[]> result = new LinkedList<Integer[]>();
@@ -43,8 +43,8 @@ public class mid_Tests {
         result.add(param);
         return result;
     }
-    
-    /*@Parameterized.Parameters
+ */   
+    @Parameterized.Parameters
     public static Collection<Integer[]> values() {
         List<Integer[]> result = new LinkedList<Integer[]>();
         for (int i = -14; i <= scope; i++) {
@@ -57,7 +57,7 @@ public class mid_Tests {
         }
         return result;
     }
-    */
+    
 
     @Test
     public void test1() {
