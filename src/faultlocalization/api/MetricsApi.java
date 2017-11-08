@@ -127,8 +127,8 @@ public class MetricsApi {
 		for(Ranking ideal : rankings){
 			//dklDeviations.put(ideal.getFormula().getName(), divergenceStatisticFrom(ideal,rankings));//TODO fix name to formula
 			//dklDeviations.put(ideal.getFormula().getName(), divergenceStatisticFrom(ideal,rankings,STATISTIC.STANDARD_DEVIATION));
-			dklDeviations.put(ideal.getFormula().getName(), divergenceStatisticFrom(ideal,rankings,STATISTIC.MEAN));
-			//dklDeviations.put(ideal.getFormula().getName(), divergenceStatisticFrom(ideal,rankings,STATISTIC.VARIANCE));
+			//dklDeviations.put(ideal.getFormula().getName(), divergenceStatisticFrom(ideal,rankings,STATISTIC.MEAN));
+			dklDeviations.put(ideal.getFormula().getName(), divergenceStatisticFromE(ideal,rankings,STATISTIC.VARIANCE));
 		}
 		return dklDeviations;
 	}
@@ -165,7 +165,7 @@ public class MetricsApi {
 			variance += (dklMetricAverage - dklMetric) * (dklMetricAverage - dklMetric); 
 		}
 		variance = variance / dklMetrics.size();
-		if(statistic == statistic.MEAN){
+		if(statistic == statistic.VARIANCE){
 			System.out.println("DklMetrics variance:"+ variance);
 			return variance;
 		}
