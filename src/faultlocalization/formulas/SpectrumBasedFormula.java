@@ -52,6 +52,25 @@ public class SpectrumBasedFormula {
 			
 		},
 		
+		JACCARD {
+
+			@Override
+			public String getName() {
+				return "JACCARD";
+			}
+
+			@Override
+			public String description() {
+				return "";
+			}
+			
+			@Override
+			public Float evaluate(int positive, int negative, int totalPositive, int totalNegative) {
+				return  negative / (float) (totalNegative + positive);
+			}
+			
+		},
+		
 		OP2 {
 
 			@Override
@@ -123,7 +142,8 @@ public class SpectrumBasedFormula {
 			int totalNeg = coverageInfo.getTotalFailedTests();
 			ranking.put(l, f.evaluate(pos, neg, totalPos, totalNeg));
 		}
-		return sortByValueAndExecutedTimes(sortByValue(ranking), coverageInfo);
+		return sortByValue(ranking);
+		//sreturn sortByValueAndExecutedTimes(sortByValue(ranking), coverageInfo);
 	}
 	
 	private static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {

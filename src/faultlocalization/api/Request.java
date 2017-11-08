@@ -28,7 +28,7 @@ public class Request {
 			throw new IllegalArgumentException("No java file for class " + classToCover + " in source directory");
 		}
 		this.outDir = outDir;
-		if (checkPathProperties(outDir, EXISTS, IS_FILE)) {
+		if (!checkPathProperties(outDir, EXISTS, IS_DIRECTORY)) {
 			throw new IllegalArgumentException("Output directory " + outDir + " is a file");
 		}
 		this.paths = paths;
