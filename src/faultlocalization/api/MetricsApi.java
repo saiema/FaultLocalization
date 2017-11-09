@@ -82,17 +82,17 @@ public class MetricsApi {
 
 	
 	/**
-	 * Compute the biggest standard deviation 
+	 * Compute the biggest statistic 
 	 * @param rankings is a set of rankings.
-	 * @return the biggest Standard deviations of dkl measures.
+	 * @return the biggest statistic of dkl measures.
 	 * @throws IllegalArgumentException if {@code rankings.size()==0} or {@code rankings == null}
 	 */
-	public static float biggestStandardDeviationDklMetric(List<Ranking> rankings){
+	public static float biggestStatisticDklMetric(List<Ranking> rankings, STATISTIC statistic){
 		if(rankings == null || rankings.size() == 0 )
 			throw new IllegalArgumentException();
 		float biggestSD = -1;	
 		for(Ranking ideal : rankings){
-			float sd = divergenceStatisticFrom(ideal, rankings, STATISTIC.STANDARD_DEVIATION);
+			float sd = divergenceStatisticFrom(ideal, rankings, statistic);
 			if(biggestSD < sd)
 				biggestSD = sd;
 		}
@@ -100,17 +100,17 @@ public class MetricsApi {
 	}
 	
 	/**
-	 * Compute the smallest standard deviation.
+	 * Compute the smallest statistic.
 	 * @param rankings is a set of rankings.
 	 * @return the smallest Standard deviations of dkl measures.
 	 * @throws IllegalArgumentException if {@code rankings.size()==0} or {@code rankings == null}
 	 */
-	public static float smallestStandardDeviationDklMetric(List<Ranking> rankings){
+	public static float smallestStatisticDklMetric(List<Ranking> rankings, STATISTIC statistic){
 		if(rankings == null || rankings.size() == 0 )
 			throw new IllegalArgumentException();
 		float smallestSD = 1000;	
 		for(Ranking ideal : rankings){
-			float sd = divergenceStatisticFrom(ideal, rankings, STATISTIC.STANDARD_DEVIATION);
+			float sd = divergenceStatisticFrom(ideal, rankings, statistic);
 			if(smallestSD > sd)
 				smallestSD = sd;
 		}
@@ -126,9 +126,9 @@ public class MetricsApi {
 		Map<String,Float> dklDeviations = new TreeMap<String, Float>();		
 		for(Ranking ideal : rankings){
 			//dklDeviations.put(ideal.getFormula().getName(), divergenceStatisticFrom(ideal,rankings));//TODO fix name to formula
-			//dklDeviations.put(ideal.getFormula().getName(), divergenceStatisticFrom(ideal,rankings,STATISTIC.STANDARD_DEVIATION));
+			dklDeviations.put(ideal.getFormula().getName(), divergenceStatisticFrom(ideal,rankings,STATISTIC.STANDARD_DEVIATION));
 			//dklDeviations.put(ideal.getFormula().getName(), divergenceStatisticFrom(ideal,rankings,STATISTIC.MEAN));
-			dklDeviations.put(ideal.getFormula().getName(), divergenceStatisticFromE(ideal,rankings,STATISTIC.VARIANCE));
+			//dklDeviations.put(ideal.getFormula().getName(), divergenceStatisticFromE(ideal,rankings,STATISTIC.VARIANCE));
 		}
 		return dklDeviations;
 	}
