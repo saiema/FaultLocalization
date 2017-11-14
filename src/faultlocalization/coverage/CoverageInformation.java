@@ -22,7 +22,7 @@ public class CoverageInformation implements Serializable {
 	private Map<Integer, Integer> positiveTestsPerLine;
 	private Map<Integer, Integer> negativeTestsPerLine;
 	private Set<Integer> markedLines;
-	private List<Integer> visitedLines;
+	private Set<Integer> visitedLines;
 	private int totalPassedtests = 0;
 	private int totalFailedTests = 0;
 	
@@ -30,7 +30,7 @@ public class CoverageInformation implements Serializable {
 	public CoverageInformation() {
 		this.positiveTestsPerLine = new TreeMap<>();
 		this.negativeTestsPerLine = new TreeMap<>();
-		this.visitedLines = new LinkedList<>();
+		this.visitedLines = new TreeSet<>();
 		this.markedLines = new TreeSet<>();
 	}
 	
