@@ -58,11 +58,18 @@ public class Ranking implements Serializable {
 				maxSuspiciouness = suspiciounessValue;
 		}
 		float normalizingTerm = maxSuspiciouness - minSuspiciouness;
-		
+		System.out.println("normalizing term:"+normalizingTerm);
 		normalizedRankStatements = sortByValue(normalizedRankStatements);
 		
 		for (Integer l :ci.getMarkedLines() ){
-			float normalizedSuspiciouness = (normalizedRankStatements.get(l) - minSuspiciouness)/(normalizingTerm);
+			float normalizedSuspiciouness;
+			if(Float.isInfinite(normalizedRankStatements.get(l))) {
+				normalizedSuspiciouness = 1;
+			}else{
+				normalizedSuspiciouness = (normalizedRankStatements.get(l) - minSuspiciouness)/(normalizingTerm);
+				
+			}
+			System.out.println("normalizedSuspiciouness: "+normalizedSuspiciouness);
 			normalizedRankStatements.put(l,((normalizedSuspiciouness != 0)?normalizedSuspiciouness:EPSILON));
 			normalizedSuspiciounessSum += normalizedSuspiciouness;
 		}
